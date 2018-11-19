@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>three.js webgl - STL</title>
+		<title>Mueble Consola</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<style>
@@ -37,8 +37,8 @@
 	</head>
 	<body>
 		<div id="info">
-			<a href="http://threejs.org" target="_blank" rel="noopener">three.js</a> -
-			STL loader test by <a href="https://github.com/aleeper" target="_blank" rel="noopener">aleeper</a>. PR2 head from <a href="http://www.ros.org/wiki/pr2_description">www.ros.org</a>
+			<!--<a href="http://threejs.org" target="_blank" rel="noopener">three.js</a> --> Mueble Consola
+			Arcade por Chema<!-- <a href="https://github.com/aleeper" target="_blank" rel="noopener">aleeper</a>. PR2 head from <a href="http://www.ros.org/wiki/pr2_description">www.ros.org</a>-->
 		</div>
 
 		<script src="three.min.js"></script>
@@ -68,24 +68,25 @@
 				container = document.createElement( 'div' );
 				document.body.appendChild( container );
 
-				camera = new THREE.PerspectiveCamera( 55, window.innerWidth / window.innerHeight, 1, 515 );
-				camera.position.set( 3, 5, 3 );
+				camera = new THREE.PerspectiveCamera( 54, window.innerWidth / window.innerHeight, 1, 515 );
+				camera.position.set( 7, 8, 7 );
 
 				cameraTarget = new THREE.Vector3( 0, - 0.25, 0 );
 
 				scene = new THREE.Scene();
 				scene.background = new THREE.Color( 0x72645b );
-				//scene.fog = new THREE.Fog( 0x72645b, 2, 15 );
+				scene.fog = new THREE.Fog( 0x72645b, 12, 45 );
 
 
 				// Ground
-
+				
 				var plane = new THREE.Mesh(
-					new THREE.PlaneBufferGeometry( 40, 40 ),
-					new THREE.MeshPhongMaterial( { color: 0x999999, specular: 0x101010 } )
+					new THREE.PlaneBufferGeometry( 50, 50 ), //Tamaño del plano
+					new THREE.MeshPhongMaterial( { color: 0x869799, specular: 0x101010 } )
 				);
-				plane.rotation.x = - Math.PI / 2;
-				plane.position.y = - 0.5;
+				//Posiciones del plano de tierra
+				plane.rotation.x = - Math.PI/2 ;
+				plane.position.y = - 8;
 				scene.add( plane );
 
 				plane.receiveShadow = true;
@@ -96,11 +97,11 @@
 				var loader = new THREE.STLLoader();
 				loader.load( 'Consola.stl', function ( geometry ) {
 
-					var material = new THREE.MeshPhongMaterial( { color: 0xff5533, specular: 0x111111, shininess: 200 } );
+					var material = new THREE.MeshPhongMaterial( { color: 0xfbaf53, specular: 0x111000, shininess: 100 } );
 					var mesh = new THREE.Mesh( geometry, material );
 
-					mesh.position.set( 0, - 0.25, 0.6 );
-					mesh.rotation.set( 0, - Math.PI / 2, 0 );
+					mesh.position.set( 0, 0, 0 );
+					mesh.rotation.set( -Math.PI/2,0, 0 );
 					mesh.scale.set( 0.1, 0.1, 0.1 );
 
 					mesh.castShadow = true;
@@ -137,9 +138,9 @@
 
 				// stats
 
-				stats = new Stats();
+				/*stats = new Stats();
 				container.appendChild( stats.dom );
-
+				*/
 				//
 
 				window.addEventListener( 'resize', onWindowResize, false );
@@ -184,16 +185,17 @@
 				requestAnimationFrame( animate );
 
 				render();
-				stats.update();
+				//stats.update();
 
 			}
 
 			function render() {
 
-				var timer = Date.now() * 0.0005;
+				var timer = Date.now() * 0.0006; //Velocidad de giro de la cámara
 
-				camera.position.x = Math.cos( timer ) * 14;
-				camera.position.z = Math.sin( timer ) * 14;
+				// Movimiento de la cámara en ambos ejes
+				camera.position.x = Math.cos( timer ) * 20;
+				camera.position.z = Math.sin( timer ) * 18;
 
 				camera.lookAt( cameraTarget );
 
